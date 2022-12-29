@@ -18,7 +18,18 @@ int ZeroOneRandom() {
 
 int UniformRandom(int lower_bound, int upper_bound) {
   // TODO - you fill in here.
-  return 0;
+  // ref: https://jacquesheunis.com/post/bounded-random/
+  int num = upper_bound - lower_bound + 1;
+  int result = INT_MAX;
+  while (result >= num) {
+    result = 0;
+    for(int i=0; (1<<i)<num; i++) { // t <= 2^i
+      result = 2*result + ZeroOneRandom();
+    }
+  }
+  
+  return lower_bound + result;
+
 }
 bool UniformRandomRunner(TimedExecutor& executor, int lower_bound,
                          int upper_bound) {
